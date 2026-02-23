@@ -16,16 +16,18 @@ def get_files_info(working_directory, directory="."):
     # else:
     #     print(f"Result for '{directory}' directory:")
     
+    try:
 
-    if not validate_target_dir:
-        return f'\tError: Cannot list "{directory}" as it is outside the permitted working directory'
-    elif not os.path.isdir(target_dir):
-        return f'\tError: "{directory}" is not a directory'
-    else:
-        output = []
-        with os.scandir(target_dir) as entries:
-            for entry in entries:
-                output.append(f'\t- {entry.name}: file_size={entry.stat().st_size} bytes, is_dir={entry.is_dir()}')
-        
-        return "\n".join(output)
-        
+        if not validate_target_dir:
+            return f'\tError: Cannot list "{directory}" as it is outside the permitted working directory'
+        elif not os.path.isdir(target_dir):
+            return f'\tError: "{directory}" is not a directory'
+        else:
+            output = []
+            with os.scandir(target_dir) as entries:
+                for entry in entries:
+                    output.append(f'\t- {entry.name}: file_size={entry.stat().st_size} bytes, is_dir={entry.is_dir()}')
+            
+            return "\n".join(output)
+    except Exception as e:
+        return f"Error: {e}"

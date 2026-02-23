@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from google import genai
 import argparse
+from functions.prompts import system_prompt
 
 
 load_dotenv()
@@ -18,7 +19,8 @@ messages = [genai.types.Content(role="user", parts=[genai.types.Part(text=args.u
 
 response = client.models.generate_content(
     model='gemini-2.5-flash',
-    contents=args.user_prompt
+    contents=args.user_prompt,
+    config = genai.types.GenerateContentConfig(system_instruction=system_prompt)
     )
 
 prompt_token_count = response.usage_metadata.prompt_token_count if response.usage_metadata != None else 0
